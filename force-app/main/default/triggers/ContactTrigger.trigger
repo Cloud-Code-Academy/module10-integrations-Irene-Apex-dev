@@ -17,10 +17,9 @@
  * Optional Challenge: Use a trigger handler class to implement the trigger logic.
  */
 trigger ContactTrigger on Contact(before insert, after insert, after update) {
-	
 	// When a contact is inserted
 	// if DummyJSON_Id__c is null, generate a random number between 0 and 100 and set this as the contact's DummyJSON_Id__c value
-	if (Trigger.isBefore && Trigger.isInsert) {
+	if(Trigger.isBefore && Trigger.isInsert) {
 		for(Contact con : Trigger.new) {
 			ContactTriggerHandler.beforeInsert(trigger.New);
 			}
@@ -31,10 +30,9 @@ trigger ContactTrigger on Contact(before insert, after insert, after update) {
 	if (Trigger.isAfter && Trigger.isInsert) {
 		List<Id> contactIds = new List<Id>();
 
-		for (Id contactId : Trigger.newMap.keySet()) {
-			contactIds.add(contactId);
+		for (Contact contact : Trigger.newMap.values()) {
+			contactIds.add(contact.Id);
 		}
-
 		ContactTriggerHandler.afterInsert(contactIds);
 	}
 
@@ -42,11 +40,11 @@ trigger ContactTrigger on Contact(before insert, after insert, after update) {
 	// if DummyJSON_Id__c is greater than 100, call the postCreateDummyJSONUser API
 	if (Trigger.isAfter && Trigger.isUpdate) {
 		List<Id> contactIds = new List<Id>();
-		
-		for (Id contactId : Trigger.newMap.keySet()) {
-			contactIds.add(contactId);
-		}
 
-		ContactTriggerHandler.afterUpdate(contactIds);
+		for (Contact contact : Trigger.newMap.values()) {
+			contactIds.add(contact.Id);
+		}
+		
+		ContactTriggerHandler.afterInsert(contactIds);
 	}
 }
