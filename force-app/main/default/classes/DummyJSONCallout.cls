@@ -173,7 +173,10 @@ public with sharing class DummyJSONCallout {
 	@TestVisible // Allows test class to see this method. Since it is private, it would not be visible otherwise.
 	private static String generateDummyJsonUserPayload(String contactId) {
 		// Query the contact to get the field values to generate the JSON payload.
-		Contact contact = [SELECT Id, FirstName, LastName, Email, Phone FROM Contact WHERE Id = :contactId];
+		Contact contact = [
+			SELECT Id, FirstName, LastName, Email, Phone 
+			FROM Contact WHERE Id = :contactId
+		];
 
 		// Create a map of the field values.
 		Map<String, Object> jsonMap = new map<String,Object>();

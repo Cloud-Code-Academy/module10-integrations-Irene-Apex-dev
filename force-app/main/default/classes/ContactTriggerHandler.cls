@@ -15,7 +15,8 @@ public with sharing class ContactTriggerHandler {
     public static void afterInsert(List<Id> contactIds) {
         List<Contact> contacts = [SELECT Id, DummyJSON_Id__c 
                                     FROM Contact 
-                                   WHERE Id IN :contactIds];
+                                   WHERE Id IN :contactIds
+        ];
 
         for (Contact contact : contacts) {
             Integer DummyJSONValue = Integer.valueOf(contact.DummyJSON_Id__c);
@@ -33,7 +34,8 @@ public with sharing class ContactTriggerHandler {
     public static void afterUpdate(List<Id> contactIds) {
         List<Contact> contacts = [SELECT Id, DummyJSON_Id__c, DummyJSON_Last_Updated__c 
                                     FROM Contact 
-                                   WHERE Id IN :contactIds];
+                                   WHERE Id IN :contactIds
+        ];
 
         for (Contact contact : contacts) {
             Integer DummyJSONValue = Integer.valueOf(contact.DummyJSON_Id__c);
